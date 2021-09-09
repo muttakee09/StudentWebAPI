@@ -19,20 +19,13 @@ namespace StudentWebAPI.Services
         }
         public StudentWithCourseViewModel GetStudentWithCourseDetails(int id)
         {
-            var dataContext = new PetaPoco.Database("studentdbstring");
-            var student = dataContext.Fetch<StudentWithCourseViewModel>(
-                "SELECT s.Id, s.StudentName, s.Age, s.BloodGroup, s.Gender, s.Image, " +
-                "c1.Id AS MainCourse, c1.CourseName AS MainCourseName, c2.Id AS SupplementaryCourse, c2.CourseName AS SupplementaryCourseName FROM Students s " +
-                "LEFT OUTER JOIN Courses c1 ON s.MainCourse = c1.Id " +
-                "LEFT OUTER JOIN Courses c2 ON s.SupplementaryCourse = c2.Id " +
-                " WHERE s.Id=@0", id).SingleOrDefault();
+            var student = _studentRepository.Get(id);
             return student;
         }
 
-        public IList<Student> GetStudentList()
+        public IList<StudentWithCourseViewModel> GetStudentList()
         {
-            var dataContext = new PetaPoco.Database("studentdbstring");
-            var students = dataContext.Query<Student>("SELECT * FROM Students").ToList();
+            var students = _studentRepository.GetAll();
             return students;
         }
 

@@ -35,7 +35,7 @@ namespace StudentWebAPI.Controllers
         {
             try
             {
-                IList<Student> students = _studentServices.GetStudentList();
+                IList<StudentWithCourseViewModel> students = _studentServices.GetStudentList();
                 return Ok(students);
             }
             catch (Exception e)
