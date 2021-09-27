@@ -13,6 +13,7 @@ using StudentWebAPI.Services;
 
 namespace StudentWebAPI.Controllers
 {
+    [System.Web.Http.Authorize]
     public class StudentController : ApiController
     {
         private readonly IStudentService _studentServices;
@@ -21,21 +22,12 @@ namespace StudentWebAPI.Controllers
         {
             _studentServices = studentService;
         }
-        /*public IHttpActionResult UploadImage()
-        {
-            var httpRequest = HttpContext.Current.Request;
-            var file = HttpContext.Current.Request.Files.Count > 0 ?
-        HttpContext.Current.Request.Files[0] : null;
-            var filePath = HttpContext.Current.Server.MapPath("~/Photos/" + file.FileName);
-            file.SaveAs(filePath);
-            return Ok(filePath);
-        }*/
-        // GET: api/Student
-        public IHttpActionResult Get()
+
+        public IHttpActionResult Get(string search = "", string sortParams = "")
         {
             try
             {
-                IList<StudentWithCourseViewModel> students = _studentServices.GetStudentList();
+                IList<StudentWithCourseViewModel> students = _studentServices.GetStudentList(search, sortParams);
                 return Ok(students);
             }
             catch (Exception e)
@@ -43,6 +35,7 @@ namespace StudentWebAPI.Controllers
                 return InternalServerError();
             }
         }
+
         // GET: api/Student/5
         public IHttpActionResult Get(int id)
         {

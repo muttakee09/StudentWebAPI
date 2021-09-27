@@ -12,7 +12,7 @@ namespace StudentWebAPI.Repositories
 {
     public interface IStudentRepository
     {
-        IList<StudentWithCourseViewModel> GetAll();
+        IList<StudentWithCourseViewModel> GetAll(string search, string sortParams);
         StudentWithCourseViewModel Get(int id);
         void Insert(Student student);
         int Update(int id, Student student);

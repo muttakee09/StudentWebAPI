@@ -26,13 +26,16 @@ namespace StudentWebAPI.Repositories
             return updatedId;
         }
 
-        public IList<StudentWithCourseViewModel> GetAll()
+        public IList<StudentWithCourseViewModel> GetAll(string search, string sortParams)
         {
-            var students = _dataContext.Query<StudentWithCourseViewModel>(
-                @"SELECT s.Id, s.StudentName, s.Age, s.BloodGroup, s.Gender, s.Image,
+            var p = $"%{search}%";
+            var q = sortParams == "true" ? "DESC": "";
+            var students = _dataContext.Fetch<StudentWithCourseViewModel>(
+                  @"SELECT s.Id, s.StudentName, s.Age, s.BloodGroup, s.Gender, s.Image,
                 c1.Id AS MainCourse, c1.CourseName AS MainCourseName, c2.Id AS SupplementaryCourse, c2.CourseName AS SupplementaryCourseName FROM Students s 
                 LEFT JOIN Courses c1 ON s.MainCourse = c1.Id 
-                LEFT JOIN Courses c2 ON s.SupplementaryCourse = c2.Id").ToList();
+                LEFT JOIN Courses c2 ON s.SupplementaryCourse = c2.Id 
+                WHERE s.StudentName LIKE @token ORDER BY s.StudentName " + q,new { token = p }).ToList();
             return students;
         }
 

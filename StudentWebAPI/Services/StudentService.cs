@@ -23,9 +23,9 @@ namespace StudentWebAPI.Services
             return student;
         }
 
-        public IList<StudentWithCourseViewModel> GetStudentList()
+        public IList<StudentWithCourseViewModel> GetStudentList(string search, string sortParams)
         {
-            var students = _studentRepository.GetAll();
+            var students = _studentRepository.GetAll(search, sortParams);
             return students;
         }
 

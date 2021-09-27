@@ -11,7 +11,7 @@ namespace StudentWebAPI.Services
 {
     public interface IStudentService
     {
-        IList<StudentWithCourseViewModel> GetStudentList();
+        IList<StudentWithCourseViewModel> GetStudentList(string search, string sortParams);
         StudentWithCourseViewModel GetStudentWithCourseDetails(int id);
         void CreateStudent(Student student, HttpPostedFile image);
         int UpdateStudent(int id, Student student, HttpPostedFile image, string prevImage);
